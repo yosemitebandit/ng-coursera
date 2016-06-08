@@ -1,11 +1,11 @@
-"""Linear regression."""
+"""Univariate linear regression."""
 
 import random
 
 import matplotlib.pyplot as plt
 
 
-# Create some sample data and plot it.
+# Create some sample data.
 x = [100, 125, 300, 400, 500, 524, 423, 455, 788, 322, 221, 282, 448, 988, 431]
 y = [10, 11, 31, 41, 53, 49, 44, 48, 70, 30, 22, 28, 45, 90, 43]
 
