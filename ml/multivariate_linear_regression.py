@@ -1,5 +1,6 @@
 """Multivariate linear regression."""
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -37,9 +38,27 @@ def cost(weights_vector):
 
 def dJdW(weights_vector):
   delta = h(weights_vector, x) - y
-  return np.dot(delta, x) / weights_vector.shape[1]
+  return np.dot(delta, x.T) / weights_vector.shape[1]
 
 
 # Create a vector of random weights.
 weights = np.random.rand(1, x.shape[0])
-print cost(weights)
+
+
+# Setup the learning rate and iterate on the weights.
+learning_rate = 1e-6
+costs = []
+while True:
+  current_cost = cost(weights)
+  print 'cost:', current_cost
+  # Improve the weights.
+  partial_derivatives = dJdW(weights)
+  weights -= learning_rate * partial_derivatives
+  if costs and abs(current_cost - costs[-1]) < 1:
+    break
+  costs.append(current_cost)
+
+
+# Plot iteration vs error.
+plt.plot(np.log(costs), 'rx')
+plt.show()
