@@ -6,9 +6,17 @@ import numpy as np
 
 # Create some sample data.
 x1 = np.array([[100, 125, 300, 400, 500, 524, 423, 455, 788, 322, 221, 282]])
+x1 = x1.astype('float32') / np.max(x1)
+
 x2 = np.array([[323, 424, 444, 211, 100, 520, 393, 188, 887, 42,  100, 449]])
+x2 = x2.astype('float32') / np.max(x2)
+
 x3 = np.array([[100, 900, 800, 770, 232, 100, 400, 448, 22,  100, 300, 200]])
+x3 = x3.astype('float32') / np.max(x3)
+
 x4 = np.array([[400, 200, 999, 188, 377, 222, 111, 33,  100, 100, 23,  388]])
+x4 = x4.astype('float32') / np.max(x4)
+
 ones_vector = np.array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 x = np.concatenate((ones_vector, x1, x2, x3, x4))
 # Note: y is a row vector.
@@ -46,7 +54,8 @@ weights = np.random.rand(1, x.shape[0])
 
 
 # Setup the learning rate and iterate on the weights.
-learning_rate = 1e-6
+learning_rate = 1e-1
+iterations = 1e3
 costs = []
 while True:
   current_cost = cost(weights)
@@ -54,9 +63,10 @@ while True:
   # Improve the weights.
   partial_derivatives = dJdW(weights)
   weights -= learning_rate * partial_derivatives
-  if costs and abs(current_cost - costs[-1]) < 1:
-    break
   costs.append(current_cost)
+  iterations -= 1
+  if iterations == 0:
+    break
 
 
 # Plot iteration vs error.
