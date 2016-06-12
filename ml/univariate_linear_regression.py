@@ -15,7 +15,7 @@ def h(x_value, W, b):
   return W * x_value + b
 
 
-def cost(W, b):
+def linear_cost(W, b):
   # J(W, b) = 1/2m * sum((h(x) - y) ** 2)
   cost = 0
   for i in range(len(x)):
@@ -57,7 +57,7 @@ while True:
   plt.xlim(0, 1000)
   plt.ylim(0, 100)
   plt.show()
-  current_cost = cost(W, b)
+  current_cost = linear_cost(W, b)
   print 'cost:', current_cost
   # Improve the guess.
   delta_W = learning_rate * dJdW(W, b)
