@@ -26,7 +26,7 @@ def sigmoid(x):
   return 1 / (1 + np.exp(-1 * x))
 
 
-def h(weights_vector, x_matrix):
+def hypothesis(weights_vector, x_matrix):
   """The hypothesis function.
 
   Args:
@@ -42,23 +42,23 @@ def h(weights_vector, x_matrix):
 
 
 def logistic_cost(weights_vector):
-  summation = (np.dot(y, np.log(h(weights_vector, x)).T) +
-               np.dot((1 - y), np.log(1 - h(weights_vector, x).T)))
+  summation = (np.dot(y, np.log(hypothesis(weights_vector, x)).T) +
+               np.dot((1 - y), np.log(1 - hypothesis(weights_vector, x).T)))
   return -1 * summation.flatten()[0] / samples
 
 
 def dJdW(weights_vector):
-  delta = h(weights_vector, x) - y
+  delta = hypothesis(weights_vector, x) - y
   return np.dot(delta, x.T) / samples
 
 
-# Create a vector of random weights.
-weights = np.random.rand(1, x.shape[0])
+# Create a vector of weights.
+weights = np.array([[0.1, 0.2, 0.3, 0.4]])
 initial_weights = np.copy(weights)
 
 
 # Setup the learning rate and iterate on the weights.
-learning_rate = 1e-5
+learning_rate = 1e-3
 iterations = 1e5
 costs = []
 while True:
@@ -76,6 +76,29 @@ plt.plot(costs)
 plt.show()
 
 
+# Plot some predictions based on the final value of the weights.
+points = 50
+x1_values, x2_values = np.array([]), np.array([])
+for x1_value in np.linspace(x1.min(), x1.max(), points):
+  x1_values = np.concatenate((x1_values, x1_value * np.ones(points)))
+  x2_values = np.concatenate((x2_values, np.linspace(x2.min(), x2.max(), points)))
+r_values = [(x1_values[i]**2 + x2_values[i]**2) ** 0.5 for i in range(points * points)]
+ones_values = np.ones(points * points)
+x_values = np.concatenate((
+  np.array([ones_values]),
+  np.array([x1_values]),
+  np.array([x2_values]),
+  np.array([r_values])
+))
+predictions = np.round(hypothesis(weights, x_values))
+for i, prediction in enumerate(predictions[0]):
+  if prediction == 1:
+    marker = 'g.'
+  elif prediction == 0:
+    marker = 'r.'
+  plt.plot(x1_values[i], x2_values[i], marker)
+
+
 # Plot the dataset.
 for i in range(len(x1[0])):
   if y[0][i] == 1:
@@ -84,7 +107,3 @@ for i in range(len(x1[0])):
     marker = 'rx'
   plt.plot(x1[0][i], x2[0][i], marker)
 plt.show()
-
-
-print initial_weights
-print weights
