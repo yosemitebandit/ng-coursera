@@ -81,8 +81,10 @@ points = 50
 x1_values, x2_values = np.array([]), np.array([])
 for x1_value in np.linspace(x1.min(), x1.max(), points):
   x1_values = np.concatenate((x1_values, x1_value * np.ones(points)))
-  x2_values = np.concatenate((x2_values, np.linspace(x2.min(), x2.max(), points)))
-r_values = [(x1_values[i]**2 + x2_values[i]**2) ** 0.5 for i in range(points * points)]
+  x2_values = np.concatenate(
+    (x2_values, np.linspace(x2.min(), x2.max(), points)))
+r_values = [(x1_values[i]**2 + x2_values[i]**2) ** 0.5
+            for i in range(points * points)]
 ones_values = np.ones(points * points)
 x_values = np.concatenate((
   np.array([ones_values]),
