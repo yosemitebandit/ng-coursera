@@ -5,20 +5,18 @@ import numpy as np
 
 
 # A donut dataset centered around the origin.
-x1 = [-3, -2, -1,  0, 1, 2, 3, -30, -20, -10, 0,  10,  20,  30, 15, -10, 0]
-x2 = [-2, -4, -1, -1, 3, 1, 2, -25,  30,  10, 30, 40, -20, -10, 15, -20, -20]
-r = [(x1[i]**2 + x2[i]**2) ** 0.5 for i in range(len(x1))]
-ones_vector = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-x1 = np.array([x1])
-x2 = np.array([x2])
-r = np.array([r])
-ones_vector = np.array([ones_vector])
-# Note x is (4 x 17).
+x1 = np.array([[-3, -2, -1,  0, 1, 2, 3, -30, -20, -10, 0,  10,  20,  30, 15,
+                -10, 0]])
+x2 = np.array([[-2, -4, -1, -1, 3, 1, 2, -25,  30,  10, 30, 40, -20, -10, 15,
+                -20, -20]])
+x1 = (x1.astype('float32') - np.mean(x1)) / np.std(x1)
+x2 = (x2.astype('float32') - np.mean(x2)) / np.std(x2)
+r = np.array([(x1[i]**2 + x2[i]**2) ** 0.5 for i in range(len(x1))])
+ones_vector = np.array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+# Note: x is (4 x 17).
 x = np.concatenate((ones_vector, x1, x2, r))
-
-y = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-# Note y is (1 x 17).
-y = np.array([y])
+# Note: y is (1 x 17).
+y = np.array([[0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 samples = x1.shape[1]
 
 
