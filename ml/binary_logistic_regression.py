@@ -39,15 +39,20 @@ def hypothesis(weights_vector, x_matrix):
   return sigmoid(np.dot(weights_vector, x_matrix))
 
 
-def logistic_cost(weights_vector):
+def logistic_cost(weights_vector, regularization_strength=1e-1):
   summation = (np.dot(y, np.log(hypothesis(weights_vector, x)).T) +
                np.dot((1 - y), np.log(1 - hypothesis(weights_vector, x).T)))
+  summation += (regularization_strength / (2 * samples) *
+                (weights_vector[1:] * weights_vector[1:]).sum())
   return -1 * summation.flatten()[0] / samples
 
 
-def dJdW(weights_vector):
+def dJdW(weights_vector, regularization_strength=1e-1):
   delta = hypothesis(weights_vector, x) - y
-  return np.dot(delta, x.T) / samples
+  # Apply regularization -- first term is the bias and should be exempt.
+  regularization = regularization_strength / samples * weights_vector
+  regularization[0] = 0
+  return np.dot(delta, x.T) / samples + regularization
 
 
 # Create a vector of weights.
